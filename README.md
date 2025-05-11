@@ -7,36 +7,54 @@ Deploying a Machine Learning Model as a REST API with Flask
 
 ## Data Set Information
 
-This is perhaps the best known database to be found in the pattern recognition literature. The data set contains 3 classes of 50 instances each, where each class refers to a type of iris plant. One class is linearly separable from the other 2; the latter are NOT linearly separable from each other. 
+This dataset is one of the best-known in pattern recognition. It contains 3 classes of 50 instances each, where each class refers to a type of iris plant. One class is linearly separable from the other two; the latter are NOT linearly separable from each other.
+Predicted attribute: class of iris plant 
 
-Predicted attribute: class of iris plant. 
 
-## Attribute Information
 
-1. sepal length in cm 
-2. sepal width in cm 
-3. petal length in cm 
-4. petal width in cm 
-5. class: 
--- Iris Setosa 
--- Iris Versicolour 
--- Iris Virginica
 
-## Steps
-1. Build and train the machine learning model in a Jupyter Notebook (file: _model/Iris_model.ipynb_),
-2. save the model in a (pickle) file (file: _api/iris_model.pkl_)
-3. create an API application that uses the pre-trained model to generate predictions (file: _api/api.py_),
-3. encapsulate the application in a Docker container (file: _api/Dockerfile_),
-4. deploy the application to a cloud server.
-
-## Technical Requirements
+# Technical Requirements
 + Python 3.4+,
 + Docker,
 + The required Python libraries used can be installed from the included _requirements.txt_ file:
 
 
-## Running the application locally
-### Directly
+
+
+
+
+
+# Steps
+1. Build and train the machine learning model in a Jupyter Notebook (file: model/Iris_model.ipynb).
+2. save the trained model in a pickle file (file: _api/iris_model.pkl_)
+3. create an API application that uses the pre-trained model to generate predictions (file: _api/api.py_),
+3. encapsulate the application in a Docker container (file: _api/Dockerfile_),
+4. deploy the application to a cloud server.
+
+
+
+
+
+
+# Attribute Information
+
+1. sepal length in cm 
+2. sepal width in cm 
+3. petal length in cm 
+4. petal width in cm 
+
+5. class: 
+-- Iris Setosa 
+-- Iris Versicolour 
+-- Iris Virginica
+
+
+
+
+
+# Running the application locally
+
+# Directly
 ```bash
 # Clone the project
 git clone https://github.com/AchilleasKn/flask_api_python.git
@@ -54,22 +72,27 @@ pip3 install -r requirements.txt
 python3 api.py
 ```
 
-### On Docker
 
-###### Available images:
+
+
+
+# Running the Application Using Docker
+
+# Available Docker images:
 - achilleaskn/flask_api_python:latest
-
-This image is based on the python:3.6-jessie official image
+This image is built on the official python:3.6-jessie image, providing a standard Python environment for running the application
 
 [![](https://images.microbadger.com/badges/image/achilleaskn/flask_api_python.svg)](https://microbadger.com/images/achilleaskn/flask_api_python "Get your own image badge on microbadger.com")
 
 - achilleaskn/flask_api_python:alpine.latest
-
-This image is based on Alpine Linux image which is a lightweight version of Linux
+This image is based on the lightweight Alpine Linux image, which offers a smaller footprint, making it ideal for resource-constrained environments.
 
 [![](https://images.microbadger.com/badges/image/achilleaskn/flask_api_python:alpine.latest.svg)](https://microbadger.com/images/achilleaskn/flask_api_python:alpine.latest "Get your own image badge on microbadger.com")
 
-##### From scratch
+
+
+
+# Building the Application from Scratch:
 
 ```bash
 # Clone the project
@@ -94,7 +117,11 @@ docker ps
 docker logs <Container ID>
 ```
 
-##### With Docker Pull
+
+
+
+# Running the Application with Docker Pull:
+
 ```bash
 # Pull the docker image
 docker pull achilleaskn/flask_api_python:latest
@@ -115,7 +142,12 @@ docker ps
 docker logs <Container ID>
 ```
 
-### Testing the application
+
+
+
+
+
+# Testing the application
 Once it is running, the API can be queried using HTTP POST requests.
 I recommend using [postman](https://www.getpostman.com/) for testing.
 
