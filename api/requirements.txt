@@ -3,4 +3,4 @@ pickleshare
 numpy>=1.23.0
 pandas
 scipy
-scikit-learn
+scikit-learn    
