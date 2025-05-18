@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+// Replace this with your computer's local IP address
+const BACKEND_URL = 'http://192.168.1.14:5000';  // <--- update this!
+
 function App() {
   const [inputs, setInputs] = useState({
     feature1: '',
@@ -22,7 +25,7 @@ function App() {
     const featureArray = Object.values(inputs).map(Number);
 
     try {
-      const response = await fetch('http://localhost:5000/predict', {
+      const response = await fetch(`${BACKEND_URL}/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ feature_array: featureArray }),
@@ -34,7 +37,7 @@ function App() {
       console.error('Error:', error);
       setPrediction('error');
     }
-  }
+  };
 
   const speciesInfo = {
     0: { name: 'Iris Setosa', image: '/irissetosa.jpg' },
@@ -120,6 +123,33 @@ function App() {
 
         h2 {
           color: #7F55B1;
+        }
+
+        @media (max-width: 480px) {
+          .App {
+            margin: 1rem;
+            padding: 1.5rem;
+            max-width: 100%;
+            box-shadow: none;
+          }
+
+          input[type='number'] {
+            font-size: 1.1rem;
+            padding: 1rem;
+          }
+
+          button {
+            font-size: 1.1rem;
+            padding: 1rem;
+          }
+
+          h1 {
+            font-size: 1.5rem;
+          }
+
+          h2 {
+            font-size: 1.25rem;
+          }
         }
       `}</style>
 
