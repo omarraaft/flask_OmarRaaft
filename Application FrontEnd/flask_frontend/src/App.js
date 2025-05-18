@@ -48,7 +48,7 @@ function App() {
         body {
           margin: 0;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+          background: linear-gradient(135deg, #7F55B1, #9B7EBD);
           display: flex;
           justify-content: center;
           align-items: center;
@@ -59,14 +59,14 @@ function App() {
           background: white;
           padding: 2rem;
           border-radius: 16px;
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 12px 24px rgba(127, 85, 177, 0.3);
           max-width: 400px;
           width: 100%;
           text-align: center;
         }
 
         h1 {
-          color: #2f3e46;
+          color: #7F55B1;
           margin-bottom: 1.5rem;
         }
 
@@ -78,22 +78,23 @@ function App() {
 
         input[type='number'] {
           padding: 0.75rem;
-          border: 2px solid #ccd6dd;
+          border: 2px solid #9B7EBD;
           border-radius: 8px;
           font-size: 1rem;
           transition: border 0.3s ease;
-          background-color: #f8fafc;
+          background-color: #FFE1E0;
+          color: #4a3b56;
         }
 
         input[type='number']:focus {
-          border-color: #0077b6;
+          border-color: #F49BAB;
           outline: none;
           background-color: #ffffff;
         }
 
         button {
           padding: 0.75rem;
-          background-color: #0077b6;
+          background-color: #7F55B1;
           color: white;
           font-size: 1rem;
           border: none;
@@ -103,7 +104,7 @@ function App() {
         }
 
         button:hover {
-          background-color: #023e8a;
+          background-color: #9B7EBD;
         }
 
         .result {
@@ -118,7 +119,7 @@ function App() {
         }
 
         h2 {
-          color: #1d3557;
+          color: #7F55B1;
         }
       `}</style>
 
@@ -173,7 +174,7 @@ function App() {
 
         {prediction === 'error' && (
           <div className="result">
-            <h2 style={{ color: 'red' }}>Error getting prediction</h2>
+            <h2 style={{ color: '#F49BAB' }}>Error getting prediction</h2>
           </div>
         )}
       </div>
