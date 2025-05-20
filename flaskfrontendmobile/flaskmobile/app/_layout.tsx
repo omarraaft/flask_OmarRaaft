@@ -1,90 +1,146 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  Image,
+  ScrollView,
+} from 'react-native';
 
 export default function App() {
   const [inputs, setInputs] = useState(['', '', '', '']);
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<number | null>(null);
 
-  const handleChange = (value: string, index: number) => {
-    const newInputs = [...inputs];
-    newInputs[index] = value;
-    setInputs(newInputs);
+  const updateInput = (text: string, index: number) => {
+    const updated = [...inputs];
+    updated[index] = text;
+    setInputs(updated);
   };
 
-  const handlePredict = async () => {
-    const feature_array = inputs.map(num => parseFloat(num));
-
-    if (feature_array.some(isNaN)) {
-      Alert.alert('Invalid input', 'Please enter all 4 valid numbers');
-      return;
-    }
+  const predict = async () => {
+    const values = inputs.map(Number);
+    if (values.some(isNaN)) return Alert.alert('Enter all 4 valid numbers');
 
     try {
-      const response = await fetch('http://192.168.1.14:5000/predict', {
+      const res = await fetch('http://172.20.10.12:5000/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ feature_array }),
+        body: JSON.stringify({ feature_array: values }),
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
+      if (!res.ok) throw new Error();
+      const data = await res.json();
       setResult(data.prediction[0]);
-    } catch (error) {
-      Alert.alert('Error', 'Failed to fetch prediction');
-      console.error('Fetch error:', error);
+    } catch {
+      Alert.alert('Error fetching prediction');
     }
   };
 
+  const species = [
+    {
+      name: 'Iris Setosa',
+      image: require('../assets/images/Irissetosa.jpg'),
+    },
+    {
+      name: 'Iris Versicolour',
+      image: require('../assets/images/Irisversicolor.jpg'),
+    },
+    {
+      name: 'Iris Virginica',
+      image: require('../assets/images/Irisvirginica.jpg'),
+    },
+  ];
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>ML Prediction (4 Inputs)</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.card}>
+        <Text style={styles.title}>Iris Flower Predictor</Text>
+        {inputs.map((val, i) => (
+          <TextInput
+            key={i}
+            style={styles.input}
+            keyboardType="numeric"
+            placeholder={`Feature ${i + 1}`}
+            value={val}
+            onChangeText={text => updateInput(text, i)}
+            placeholderTextColor="#888"
+          />
+        ))}
 
-      {inputs.map((val, idx) => (
-        <TextInput
-          key={idx}
-          style={styles.input}
-          keyboardType="numeric"
-          placeholder={`Input ${idx + 1}`}
-          value={val}
-          onChangeText={text => handleChange(text, idx)}
-        />
-      ))}
+        <TouchableOpacity style={styles.button} onPress={predict}>
+          <Text style={styles.buttonText}>Predict</Text>
+        </TouchableOpacity>
 
-      <Button title="Predict" onPress={handlePredict} />
-
-      {result !== null && (
-        <Text style={styles.result}>Prediction: {result}</Text>
-      )}
-    </View>
+        {result !== null && (
+          <View style={styles.resultContainer}>
+            <Text style={styles.resultText}>Prediction: {species[result].name}</Text>
+            <Image source={species[result].image} style={styles.image} />
+          </View>
+        )}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
+    backgroundColor: '#F5F2FA',
     justifyContent: 'center',
     padding: 24,
-    backgroundColor: '#fff',
+  },
+  card: {
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
+    padding: 24,
+    elevation: 6,
   },
   title: {
     fontSize: 24,
-    marginBottom: 16,
+    fontWeight: '600',
+    color: '#5D3FBF',
     textAlign: 'center',
+    marginBottom: 20,
   },
   input: {
-    height: 40,
-    borderColor: '#999',
-    borderWidth: 1,
+    borderWidth: 1.5,
+    borderColor: '#C4AEEE',
+    borderRadius: 10,
+    padding: 12,
+    fontSize: 16,
     marginBottom: 12,
-    paddingHorizontal: 8,
+    backgroundColor: '#F0E9FF',
+    color: '#333',
   },
-  result: {
-    marginTop: 20,
-    fontSize: 20,
-    textAlign: 'center',
-    fontWeight: 'bold',
+  button: {
+    backgroundColor: '#7C4DFF',
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 17,
+    fontWeight: '500',
+  },
+  resultContainer: {
+    marginTop: 24,
+    alignItems: 'center',
+  },
+  resultText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#5D3FBF',
+    marginBottom: 12,
+  },
+  image: {
+    width: 260,
+    height: 180,
+    borderRadius: 12,
+    resizeMode: 'cover',
   },
 });
