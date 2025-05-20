@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-// Replace this with your computer's local IP address
-const BACKEND_URL = 'http://192.168.1.14:5000';  // <--- update this!
+const BACKEND_URL = 'http://192.168.1.14:5000';  // 
 
 function App() {
   const [inputs, setInputs] = useState({
